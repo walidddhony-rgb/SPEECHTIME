@@ -187,12 +187,5 @@ Project Link: [https://github.com/slam-prog/SpeechScribe](https://github.com/sla
 - [Python](https://python.org/)
 - [Contributors](https://github.com/slam-prog/SpeechScribe/graphs/contributors)
 
-## Star History
 
-<a href="https://star-history.com/#slam-prog/SpeechScribe&Date">
-  <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/svg?repos=slam-prog/SpeechScribe&type=Date&theme=dark" />
-    <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/svg?repos=slam-prog/SpeechScribe&type=Date" />
-    <img alt="Star History Chart" src="https://api.star-history.com/svg?repos=slam-prog/SpeechScribe&type=Date" />
-  </picture>
 </a>
