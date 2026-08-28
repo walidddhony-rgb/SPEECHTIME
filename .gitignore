@@ -1,0 +1,55 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+
+# Virtual environments
+venv/
+.venv/
+env/
+ENV/
+
+# Distribution / packaging
+build/
+dist/
+*.egg-info/
+.eggs/
+
+# IDEs / editors
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Testing / cache
+.pytest_cache/
+.mypy_cache/
+.coverage
+htmlcov/
+.tox/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Runtime generated outputs (root level)
+clusters.json
+gui_clusters.json
+gui_labels.csv
+gui_output.csv
+gui_output.srt
+gui_output.txt
+manual_labels.csv
+output_subtitles.srt
+output_text.txt
+output_text_details.csv
+
+# Export folder (generated outputs)
+Export/
+exports/
+output/
