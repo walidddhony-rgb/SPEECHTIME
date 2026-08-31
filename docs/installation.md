@@ -8,8 +8,8 @@
 ## Step 1: Clone Repository
 
 ```bash
-git clone https://github.com/slam-prog/SpeechScribe.git
-cd SpeechScribe
+git clone https://github.com/walidddhony-rgb/SPEECHTIME.git
+cd SPEECHTIME
 ```
 
 ## Step 2: Create Virtual Environment (Optional)
