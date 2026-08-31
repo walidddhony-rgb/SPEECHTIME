@@ -1,0 +1,108 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+[project]
+name = "speechscribe"
+version = "1.0.0"
+description = "Semi-Automatic Speech Transcription System - Save 95% of your transcription time"
+readme = {file = "README.md", content-type = "text/markdown"}
+requires-python = ">=3.8"
+license = {text = "MIT"}
+authors = [
+ {name = "WALID HASSAN MOHAMMAD AL-MOTAWAKIL", email = "walidddhony@gmail.com"},
+ {name = "NAJIB MOHAMMED AL-AMIR"},
+]
+maintainers = [
+ {name = "WALID HASSAN MOHAMMAD AL-MOTAWAKIL", email = "walidddhony@gmail.com"},
+ {name = "NAJIB MOHAMMED AL-AMIR"},
+]
+keywords = [
+ "speech-to-text",
+ "transcription",
+ "audio-processing",
+ "speech-recognition",
+ "arabic",
+ "automatic-transcription",
+ "semi-automatic",
+]
+classifiers = [
+ "Development Status :: 4 - Beta",
+ "Intended Audience :: Developers",
+ "Intended Audience :: Science/Research",
+ "Intended Audience :: Journalists",
+ "Intended Audience :: Legal Industry",
+ "License :: OSI Approved :: MIT License",
+ "Operating System :: OS Independent",
+ "Programming Language :: Python :: 3",
+ "Programming Language :: Python :: 3.8",
+ "Programming Language :: Python :: 3.9",
+ "Programming Language :: Python :: 3.10",
+ "Programming Language :: Python :: 3.11",
+ "Programming Language :: Python :: 3.12",
+ "Topic :: Multimedia :: Sound/Audio :: Speech",
+ "Topic :: Scientific/Engineering :: Information Analysis",
+ "Topic :: Text Processing :: Linguistic",
+]
+dependencies = [
+ "numpy>=1.21.0",
+ "scipy>=1.7.0",
+]
+[project.optional-dependencies]
+dev = [
+ "pytest>=6.0",
+ "pytest-cov>=3.0",
+ "black>=21.0",
+ "flake8>=3.9",
+ "mypy>=0.900",
+ "isort>=5.10",
+]
+gui = [
+ "PyQt5>=5.15.0",
+ "matplotlib>=3.4.0",
+]
+[project.scripts]
+speechscribe = "src.transcriber:main"
+[project.urls]
+Homepage = "https://github.com/walidddhony-rgb/SPEECHTIME"
+Documentation = "https://github.com/walidddhony-rgb/SPEECHTIME#readme"
+Repository = "https://github.com/walidddhony-rgb/SPEECHTIME.git"
+Issues = "https://github.com/walidddhony-rgb/SPEECHTIME/issues"
+Changelog = "https://github.com/walidddhony-rgb/SPEECHTIME/blob/main/CHANGELOG.md"
+[tool.setuptools]
+packages = ["src", "examples", "tests", "docs", "gui"]
+[tool.setuptools.package-data]
+src = ["*.py"]
+examples = ["*.py", "*.csv"]
+tests = ["*.py"]
+docs = ["*.md"]
+gui = ["*.py"]
+[tool.black]
+line-length = 88
+target-version = ['py38', 'py39', 'py310', 'py311']
+include = '\.pyi?$'
+exclude = '''
+/(
+ \.git
+ | \.hg
+ | \.mypy_cache
+ | \.tox
+ | \.venv
+ | _build
+ | buck-out
+ | build
+ | dist
+)/
+'''
+[tool.isort]
+profile = "black"
+multi_line_output = 3
+include_trailing_comma = true
+force_grid_wrap = 0
+use_parentheses = true
+ensure_newline_before_comments = true
+line_length = 88
+[tool.mypy]
+python_version = "3.8"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = false
