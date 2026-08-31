@@ -97,5 +97,5 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## Support
 
 For questions or issues:
-- GitHub Issues: https://github.com/slam-prog/SpeechScribe/issues
+- GitHub Issues: https://github.com/walidddhony-rgb/SPEECHTIME/issues
 - Email: walidddhony@gmail.com

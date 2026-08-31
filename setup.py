@@ -11,7 +11,7 @@ setup(
     description="Semi-Automatic Speech Transcription System",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    url="https://github.com/slam-prog/SpeechScribe",
+    url="https://github.com/walidddhony-rgb/SPEECHTIME",
     packages=find_packages(),
     classifiers=[
         "Development Status :: 4 - Beta",

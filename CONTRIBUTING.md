@@ -49,8 +49,8 @@ Enhancement suggestions are tracked as GitHub issues. When creating an enhanceme
 1. **Fork the repository**
    ```bash
    # Click "Fork" on GitHub, then:
-   git clone https://github.com/slam-prog/SpeechScribe.git
-   cd SpeechScribe
+   git clone https://github.com/walidddhony-rgb/SPEECHTIME.git
+   cd SPEECHTIME
    ```
 
 2. **Create a virtual environment**

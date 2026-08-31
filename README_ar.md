@@ -27,8 +27,8 @@ SpeechScribe هو نظام ثوري لتحويل الصوت إلى نص يقلل
 
 ```bash
 # استنساخ المستودع
-git clone https://github.com/slam-prog/SpeechScribe.git
-cd SpeechScribe
+git clone https://github.com/walidddhony-rgb/SPEECHTIME.git
+cd SPEECHTIME
 
 # تثبيت المتطلبات
 pip install -r requirements.txt
@@ -139,13 +139,13 @@ python -m src.transcriber lecture.wav --labels manual_labels.csv
   author = {اسمك},
   title = {SpeechScribe: نظام تفريغ صوتي شبه تلقائي},
   year = {2026},
-  url = {https://github.com/slam-prog/SpeechScribe}
+  url = {https://github.com/walidddhony-rgb/SPEECHTIME}
 }
 ```
 
 ## الدعم
 
-- المشاكل: [GitHub Issues](https://github.com/slam-prog/SpeechScribe/issues)
+- المشاكل: [GitHub Issues](https://github.com/walidddhony-rgb/SPEECHTIME/issues)
 - البريد: walidddhony@gmail.com
 
 ## الشكر

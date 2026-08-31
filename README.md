@@ -27,8 +27,8 @@ SpeechScribe is a revolutionary speech-to-text system that reduces transcription
 
 ```bash
 # Clone the repository
-git clone https://github.com/slam-prog/SpeechScribe.git
-cd SpeechScribe
+git clone https://github.com/walidddhony-rgb/SPEECHTIME.git
+cd SPEECHTIME
 
 # Install dependencies
 pip install -r requirements.txt
@@ -139,13 +139,13 @@ If you use SpeechScribe in your research, please cite:
   author = {NAJIB MOHAMMED AL-AMIR & WALID HASSAN MOHAMMAD AL-MOTAWAKIL},
   title = {SpeechScribe: Semi-Automatic Speech Transcription},
   year = {2026},
-  url = {https://github.com/slam-prog/SpeechScribe}
+  url = {https://github.com/walidddhony-rgb/SPEECHTIME}
 }
 ```
 
 ## Support
 
-- Issues: [GitHub Issues](https://github.com/slam-prog/SpeechScribe/issues)
+- Issues: [GitHub Issues](https://github.com/walidddhony-rgb/SPEECHTIME/issues)
 - Email: walidddhony@gmail.com
 
 ## Acknowledgments
@@ -166,8 +166,8 @@ Don't forget to give the project a star! Thanks again!
 
 ### Top contributors:
 
-<a href="https://github.com/slam-prog/SpeechScribe/graphs/contributors">
-  <img src="https://contrib.rocks/image?repo=slam-prog/SpeechScribe" alt="contributors"/>
+<a href="https://github.com/walidddhony-rgb/SPEECHTIME/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=walidddhony-rgb/SPEECHTIME" alt="contributors"/>
 </a>
 
 ## License
@@ -178,14 +178,14 @@ Distributed under the MIT License. See `LICENSE` for more information.
 
 NAJIB MOHAMMED AL-AMIR & WALID HASSAN MOHAMMAD AL-MOTAWAKIL - [@notyet](https://twitter.com/notyet) - walidddhony@gmail.com
 
-Project Link: [https://github.com/slam-prog/SpeechScribe](https://github.com/slam-prog/SpeechScribe)
+Project Link: [https://github.com/walidddhony-rgb/SPEECHTIME](https://github.com/walidddhony-rgb/SPEECHTIME)
 
 ## Acknowledgments
 
 - [NumPy](https://numpy.org/)
 - [SciPy](https://scipy.org/)
 - [Python](https://python.org/)
-- [Contributors](https://github.com/slam-prog/SpeechScribe/graphs/contributors)
+- [Contributors](https://github.com/walidddhony-rgb/SPEECHTIME/graphs/contributors)
 
 
 </a>
