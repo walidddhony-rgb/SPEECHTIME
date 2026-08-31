@@ -1,7 +1,7 @@
 # ==============================================================
-# SpeechScribe (SPEECHTIME) - extended .gitignore (Phase 0)
-# Python + envs + tests + IDEs + OS + audio inputs + runtime
-# outputs + AI models + dev backups
+# SpeechScribe (SPEECHTIME) - extended .gitignore (Phase 0+1)
+# Python + envs + tests + IDEs + OS + media + runtime outputs
+# + AI models + dev backups
 # ==============================================================
 
 # ---------- Python ----------
@@ -38,6 +38,7 @@ htmlcov/
 .tox/
 .nox/
 .hypothesis/
+.ipynb_checkpoints/
 
 # ---------- Linters & type checkers ----------
 .mypy_cache/
@@ -73,6 +74,13 @@ $RECYCLE.BIN/
 *.opus
 *.aac
 *.wma
+
+# ---------- Video files (demos belong in Release assets) ----------
+*.mp4
+*.avi
+*.mkv
+*.mov
+*.webm
 
 # ---------- SpeechScribe runtime outputs ----------
 output*.txt
