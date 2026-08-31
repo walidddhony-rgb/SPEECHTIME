@@ -1,55 +1,111 @@
-# Python
+# ==============================================================
+# SpeechScribe (SPEECHTIME) - extended .gitignore (Phase 0)
+# Python + envs + tests + IDEs + OS + audio inputs + runtime
+# outputs + AI models + dev backups
+# ==============================================================
+
+# ---------- Python ----------
 __pycache__/
 *.py[cod]
 *$py.class
 *.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+sdist/
+wheels/
+*.egg-info/
+*.egg
+MANIFEST
 
-# Virtual environments
-venv/
+# ---------- Virtual environments ----------
 .venv/
+venv/
 env/
 ENV/
+.python-version
 
-# Distribution / packaging
-build/
-dist/
-*.egg-info/
-.eggs/
-
-# IDEs / editors
-.vscode/
-.idea/
-*.swp
-*.swo
-
-# OS files
-.DS_Store
-Thumbs.db
-desktop.ini
-
-# Testing / cache
+# ---------- Testing & coverage ----------
 .pytest_cache/
-.mypy_cache/
 .coverage
+.coverage.*
+coverage.xml
 htmlcov/
 .tox/
+.nox/
+.hypothesis/
 
-# Jupyter
-.ipynb_checkpoints/
+# ---------- Linters & type checkers ----------
+.mypy_cache/
+.dmypy.json
+dmypy.json
+.ruff_cache/
+.pytype/
 
-# Runtime generated outputs (root level)
-clusters.json
-gui_clusters.json
-gui_labels.csv
-gui_output.csv
-gui_output.srt
-gui_output.txt
-manual_labels.csv
-output_subtitles.srt
-output_text.txt
-output_text_details.csv
+# ---------- Editors & IDE ----------
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+*.code-workspace
 
-# Export folder (generated outputs)
+# ---------- OS ----------
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+.DS_Store
+*.swp
+*.swo
+*~
+
+# ---------- Audio files (runtime inputs - not tracked) ----------
+# To force-add a sample file:  git add -f examples/sample.wav
+*.wav
+*.mp3
+*.flac
+*.ogg
+*.m4a
+*.opus
+*.aac
+*.wma
+
+# ---------- SpeechScribe runtime outputs ----------
+output*.txt
+output*.csv
+output*.srt
+output*.json
+output*.docx
+output*.pdf
 Export/
 exports/
-output/
+results/
+transcripts/
+logs/
+temp/
+tmp/
+*.log
+/clusters.json
+/manual_labels.csv
+
+# ---------- Whisper / AI model files ----------
+models/
+checkpoints/
+*.pt
+*.pth
+*.bin
+*.onnx
+*.gguf
+
+# ---------- Dev backups & archives ----------
+backup*/
+backup_*
+*.zip
+*.rar
+*.7z
+*.tar
+*.tar.gz
