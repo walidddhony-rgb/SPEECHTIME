@@ -1,7 +1,9 @@
 """Pipeline performance benchmark: wall time + peak memory (Issues #1, #3).
 
-Runs the documented public API (``src.SpeechTranscriber``) on deterministic
-synthetic audio and records, per duration:
+Runs the clustering pipeline through the proven public API (the same
+sequence used by the GUI worker: ``src.transcriber.SpeechTranscriber``
+with load_audio -> extract_segments -> cluster_segments) on
+deterministic synthetic audio and records, per duration:
 
 - elapsed wall-clock seconds
 - peak allocated memory (tracemalloc, MB)
@@ -14,8 +16,7 @@ Not part of CI. Run locally from the repository root:
 
 Notes:
 - Synthesized WAVs go to ``benchmarks/tmp/`` (git-ignored).
-- The transcriber writes its own artifacts (clusters.json etc.) to the
-  current working directory; they are git-ignored as well.
+- Only in-memory stages are measured; no review files are written.
 """
 from __future__ import annotations
 
@@ -55,10 +56,10 @@ def synth_audio(path: Path, seconds: float, sr: int = 16000, seed: int = 42) -> 
 
 def run_once(audio_path: str) -> dict:
     try:
-        from src import SpeechTranscriber
+        from src.transcriber import SpeechTranscriber
     except Exception as exc:
         raise SystemExit(
-            f"Cannot import SpeechTranscriber from 'src' ({exc}). "
+            f"Cannot import SpeechTranscriber from 'src.transcriber' ({exc}). "
             "Run this script from the repository root."
         )
 
@@ -66,9 +67,14 @@ def run_once(audio_path: str) -> dict:
     tracemalloc.start()
     t0 = time.perf_counter()
     transcriber = SpeechTranscriber(
-        audio_path=audio_path, segment_ms=25.0, similarity_threshold=0.85
+        audio_path=audio_path,
+        segment_ms=25.0,
+        hop_ms=12.5,
+        similarity_threshold=0.85,
     )
-    transcriber.transcribe()
+    transcriber.load_audio()
+    transcriber.extract_segments()
+    transcriber.cluster_segments()
     elapsed = time.perf_counter() - t0
     _, peak = tracemalloc.get_traced_memory()
     tracemalloc.stop()
@@ -96,10 +102,10 @@ def main() -> None:
         wav = synth_audio(
             tmp_dir / f"bench_{int(seconds)}s.wav", seconds, sr=args.sr, seed=args.seed
         )
+        print(f"[bench] {int(seconds)}s audio -> {wav}")
         stats = run_once(str(wav))
         stats["seconds"] = seconds
         rows.append(stats)
-        print(f"[bench] {int(seconds)}s audio -> {wav}")
         print(f"        {stats}")
 
     out = Path(args.json)
