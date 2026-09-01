@@ -1,13 +1,4 @@
-"""Stage-level performance benchmark for the clustering pipeline (Issues #1, #3).
-
-Run locally from the repository root after ``pip install -e '.[bench]'``:
-
-    python -m benchmarks.bench_pipeline --seconds 5 30 60
-
-The report records reproducible system metadata plus independent measurements
-for ``load_audio``, ``extract_segments``, and ``cluster_segments``. It does
-not write review/transcript files and is deliberately excluded from CI.
-"""
+"""Stage-level performance benchmark for the clustering pipeline (Issues #1, #3)."""
 from __future__ import annotations
 
 import argparse
@@ -85,13 +76,7 @@ def _count_items(value: Any) -> int | None:
 
 def run_once(audio_path: str) -> dict:
     """Profile the three proven in-memory pipeline stages separately."""
-    try:
-        from src.transcriber import SpeechTranscriber
-    except Exception as exc:
-        raise SystemExit(
-            f"Cannot import SpeechTranscriber from 'src.transcriber' ({exc}). "
-            "Run this script from the repository root."
-        )
+    from src.transcriber import SpeechTranscriber
 
     transcriber = SpeechTranscriber(
         audio_path=audio_path,
@@ -104,10 +89,16 @@ def run_once(audio_path: str) -> dict:
     try:
         _, load = measure_stage("load_audio", transcriber.load_audio)
         _, extract = measure_stage("extract_segments", transcriber.extract_segments)
-        clusters, cluster = measure_stage("cluster_segments", transcriber.cluster_segments)
-        _, total_peak = tracemalloc.get_traced_memory()
+        _, cluster = measure_stage("cluster_segments", transcriber.cluster_segments)
+        _, overall_peak_bytes = tracemalloc.get_traced_memory()
     finally:
         tracemalloc.stop()
+
+    stage_peaks_mb = [
+        stage["python_peak_increment_mb"]
+        for stage in (load, extract, cluster)
+    ]
+    overall_peak_mb = max(_mb(overall_peak_bytes), max(stage_peaks_mb))
 
     return {
         "stages": {
@@ -115,11 +106,11 @@ def run_once(audio_path: str) -> dict:
             "extract_segments": extract,
             "cluster_segments": cluster,
         },
-        "segments_extracted": _count_items(getattr(transcriber, "segments", None)),
-        "clusters_created": _count_items(clusters),
+        "segments_extracted": _count_items(transcriber.segments),
+        "clusters_created": _count_items(transcriber.clusters),
         "total": {
             "elapsed_s": round(time.perf_counter() - total_started, 4),
-            "peak_alloc_mb": _mb(total_peak),
+            "overall_peak_alloc_mb": overall_peak_mb,
             "rss_after_mb": _rss_mb(),
         },
     }
@@ -140,7 +131,10 @@ def main() -> None:
     rows = []
     for seconds in args.seconds:
         wav = synth_audio(
-            tmp_dir / f"bench_{int(seconds)}s.wav", seconds, sr=args.sr, seed=args.seed
+            tmp_dir / f"bench_{int(seconds)}s.wav",
+            seconds,
+            sr=args.sr,
+            seed=args.seed,
         )
         print(f"[bench] {int(seconds)}s audio -> {wav}")
         row = run_once(str(wav))
@@ -150,25 +144,30 @@ def main() -> None:
         print(json.dumps(row, ensure_ascii=False, indent=2))
 
     report = {
-        "schema_version": "1.0",
+        "schema_version": "1.1",
         "generated_at_utc": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
         "system": collect_system_info(),
-        "config": {"segment_ms": 25.0, "hop_ms": 12.5, "similarity_threshold": 0.85},
+        "config": {
+            "segment_ms": 25.0,
+            "hop_ms": 12.5,
+            "similarity_threshold": 0.85,
+        },
         "rows": rows,
     }
     out = Path(args.json)
     out.parent.mkdir(parents=True, exist_ok=True)
     out.write_text(json.dumps(report, ensure_ascii=False, indent=2), encoding="utf-8")
     print(f"\n[bench] wrote {out}")
-    print("\n| duration_s | load_s | extract_s | cluster_s | peak_alloc_mb |")
-    print("|---:|---:|---:|---:|---:|")
+    print("\n| duration_s | load_s | extract_s | cluster_s | overall_peak_alloc_mb | clusters |")
+    print("|---:|---:|---:|---:|---:|---:|")
     for row in rows:
         stages = row["stages"]
         print(
             f"| {int(row['audio_seconds'])} | {stages['load_audio']['elapsed_s']} "
             f"| {stages['extract_segments']['elapsed_s']} "
             f"| {stages['cluster_segments']['elapsed_s']} "
-            f"| {row['total']['peak_alloc_mb']} |"
+            f"| {row['total']['overall_peak_alloc_mb']} "
+            f"| {row['clusters_created']} |"
         )
 
 
