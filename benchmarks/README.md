@@ -1,42 +1,66 @@
 # Benchmarks & Evaluation
 
-Reproducible measurement toolkit for SpeechScribe — the groundwork for the
-scientific validation phase (WER/CER benchmarking and time studies).
-
-## Why normalization?
-
-Raw WER on unnormalized Arabic punishes orthographic variants that do not
-change meaning (diacritics, hamza seats, ta marbuta, alef maqsura).
-`benchmarks/normalize_ar.py` applies a conservative normalization before
-scoring so that engine errors are counted, not spelling conventions.
+Reproducible measurement toolkit for SpeechScribe. It supports two distinct
+questions: **how correct is a transcript?** (WER/CER) and **what resources does
+the clustering pipeline consume?** (time and memory per stage).
 
 ## Install
 
-    pip install -e ".[bench]"
+```powershell
+pip install -e ".[bench]"
+```
 
-## WER/CER evaluation
+## Arabic WER/CER evaluation
 
-    python -m benchmarks.evaluate_wer --reference truth.txt --hypothesis out.txt --engine whisper-small
+```powershell
+python -m benchmarks.evaluate_wer --reference truth.txt --hypothesis out.txt --engine whisper-small
+```
 
-Writes JSON to `benchmarks/results/eval.json` (git-ignored) and prints
-WER / CER / MER / WIL.
+The evaluator writes WER, CER, MER and WIL to JSON. It first applies a
+conservative Arabic normalization: removes diacritics and tatweel, unifies alef
+variants and hamza seats, normalizes ta marbuta/alef maqsura, removes punctuation,
+and collapses whitespace. This avoids counting orthographic conventions as ASR
+errors.
 
-## Pipeline performance (Issues #1, #3)
+## Stage-level pipeline benchmark
 
-    python -m benchmarks.bench_pipeline --seconds 5 30 60
+```powershell
+python -m benchmarks.bench_pipeline --seconds 5 30 60
+```
 
-Synthesizes deterministic audio, runs the clustering pipeline through the
-public API (`src.SpeechTranscriber`), and reports wall time plus peak
-allocated memory (tracemalloc) per duration. Results land in
-`benchmarks/results/pipeline.json`.
+The benchmark creates deterministic WAV files and independently measures:
 
-## Evaluation protocol (Phase 2)
+| Stage | What it diagnoses |
+|---|---|
+| `load_audio` | Audio decoding and base audio-memory cost |
+| `extract_segments` | Segment storage/copying cost |
+| `cluster_segments` | Clustering algorithm time and allocation cost |
 
-- Datasets: Mozilla Common Voice (Arabic, CC-0), MGB-2, MediaSpeech
-  (Arabic), plus a small self-recorded set with manual ground truth.
-- Every engine must be scored on identical segments with identical
-  normalization; hardware and library versions are recorded with results.
-- Time-to-verified-transcript (TTVT) = machine runtime + human correction
-  time until a zero-error transcript; measured per condition.
+The report includes operating system, Python, installed package versions, CPU
+core count and physical memory. Results are saved to
+`benchmarks/results/pipeline.json`; generated WAVs go to `benchmarks/tmp/`.
+Both locations are intentionally ignored by Git.
 
-Published result tables will live in `docs/benchmarks.md`.
+> **Important:** Do not upload raw benchmark results through the GitHub browser:
+> browser uploads bypass `.gitignore`. Keep the JSON local and later publish a
+> reviewed, anonymized results table in `docs/benchmarks.md` with the hardware
+> description and command used.
+
+## Reproducibility protocol
+
+- Use identical `--seconds`, `--sr`, `--seed`, segment, hop and threshold values
+  when comparing code versions.
+- Close resource-heavy software where possible; run each condition three times
+  and report the median in published tables.
+- Record the full report, command, commit SHA and hardware details.
+- For ASR accuracy, score each engine on identical reference transcripts with
+  `evaluate_wer.py`; do not compare raw scores produced under different text
+  normalization rules.
+
+## Phase 2 protocol
+
+- Datasets: Mozilla Common Voice Arabic, MGB-2, MediaSpeech Arabic, plus a small
+  self-recorded set with manually verified ground truth.
+- Time-to-verified-transcript (TTVT) = machine runtime + human correction time
+  until the transcript is verified against the recording.
+- Published final result tables belong in `docs/benchmarks.md`.
